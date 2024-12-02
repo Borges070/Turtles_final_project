@@ -1,0 +1,156 @@
+*{
+    margin: 0;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    box-sizing: border-box; 
+    padding: 0;
+}
+body{
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to left, #bdcf47,#6e823a); 
+}
+
+.todo-app{
+    width: 100%;
+    max-width: 500px;
+    margin: 0px 70vh ;
+    background: #ffffffb1;
+    
+    border-radius: 10px;
+    padding: 10px;/*a distância entre elementos*/
+}
+.todo-app h2{
+    
+    display:flex;
+    align-items: center;
+    margin-bottom: 3vh;
+    
+
+}
+.todo-app h1 img{
+    width: 30vh;
+    padding: 1vh ;
+    
+}
+.linhas{
+    display: flex;
+    align-items: center;
+    background: #47423e43;
+    border-radius: 40px;
+    margin-bottom: 25px;
+    padding-left: 20px;
+    
+}
+.honk{
+    width: 140px;
+    margin-left: 340px;
+}
+input{
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 5px;
+    
+}
+#addbutt{
+    background: linear-gradient( #768519, #334d00);
+    color: #fff;
+    padding: 2vh 6vh;
+    border: none;
+    border-radius: 2vh;
+    cursor: pointer;
+    transition: box-shadow 0.15s, scale 0.15s;
+}
+#addbutt:hover {
+    box-shadow: 0 10px 20px rgba(0, 76, 4, 0.3), 0 0 15px rgba(0, 95, 33, 0.6);
+    transform: scale(1.05);
+}
+
+
+#addbutt:active{
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
+    scale: 0.8;
+}
+
+
+ul li{
+    list-style: none;
+    font-size: 18px;
+    padding: 2vh 10vh 3vh 6vh;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+    max-width: 30rem;
+    overflow-y: auto;
+
+}
+ul li::before{
+    content:'';
+    position: absolute;
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    background-image: url(https://w7.pngwing.com/pngs/107/759/png-transparent-circle-white-circle-white-monochrome-black-thumbnail.png);
+    background-size: cover;
+    background-position: center;
+    top: 9px;
+    left: 8px;
+}
+ul li.checked{
+    color:#555;
+    text-decoration: line-through;
+    
+}
+ul li.checked::before{
+    background-image: url(https://w7.pngwing.com/pngs/345/390/png-transparent-check-mark-computer-icons-circle-circle-thumbnail.png);
+}
+ul li span{
+    position: absolute;
+    right: 0px;
+    font-size: 22px;
+    text-align:center;
+    border-radius: 20%;
+    color: #555;
+}
+ul li span:hover{
+    background: #4a4f5a1a;
+}
+
+.site-icon {
+    width: 5vh;
+    height: 5vh;
+    transition: transform 1s, filter 1s;
+    border-radius: 30%;
+}
+
+.site-icon:hover {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1));
+    transform: scale(1.05); 
+    cursor: help;
+}
+footer {
+	background: linear-gradient( #484e23, #2a2b28);
+	color: #fff;
+	padding: 1vh;
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	position: fixed;
+	bottom: 0;
+	width: 100vw;
+    gap: 6vh
+   
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    gap: 3vh;
+   
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}

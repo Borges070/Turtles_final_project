@@ -1,0 +1,116 @@
+
+html, body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to left, #bdcf47,#6e823a); 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/*Grid das 4 fotos */
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.item {
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.circle {
+    width: 150px; 
+    height: 150px; 
+    border-radius: 50%;
+    object-fit: cover; 
+}
+
+p {
+    margin-top: 5vh;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative; /* Para o posicionamento absoluto da sobreposição */
+}
+
+.item {
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.overlap-container {
+    position: absolute; /* Permite o posicionamento das imagens */
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Centraliza perfeitamente */
+    z-index: 1; /* Certifica-se de que as imagens sobrepostas fiquem acima */
+    display: flex; /* Flexbox para alinhar as imagens uma em cima da outra */
+    flex-direction: column; /* Alinha as imagens verticalmente */
+}
+
+.overlap {
+    width: 100px; /* Ajuste conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */ 
+    border-radius: 0; 
+    object-fit: contain; /* Mantém a proporção e evita cortes */
+    margin: -20px 0; /* Ajuste a margem para o efeito de sobreposição */
+}
+
+.site-icon {
+    width: 5vh;
+    height: 5vh;
+    transition: transform 1s, filter 1s;
+    border-radius: 30%;
+}
+
+.site-icon:hover {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1));
+    transform: scale(1.05); 
+    cursor: help;
+}
+
+    footer {
+        background: linear-gradient( #484e23, #2a2b28);
+        color: #fff;
+        padding: 1vh;
+        
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+    
+        
+    }
+    
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    gap: 3vh;
+    
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    
+}
