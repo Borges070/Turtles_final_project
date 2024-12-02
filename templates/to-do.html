@@ -4,37 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-do-list</title>
-    <link rel="stylesheet" href="/app/static/styles/to-do.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/to-do.css') }}">
 </head>
 <body>
     <div class="fundo">
         <div class="todo-app"><!--parte branca-->
-            <h1><img src="/app/Images/todo.png"></h1>
+            <h1><img src="{{ url_for('static',filename='images/todo.png') }}"></h1>
             <h2>O que fazer?</h2>
             
         <div class="linhas">
             <input type="text" id="caixa-input" placeholder="Adicione a tarefa">
             <button id="addbutt"onclick="addtarefa()">Adicionar</button><!-- Aqui vamos por a função de adicionar a tarefa-->
             
+        
         </div>
         <ul id="lista">
-            <!--<li class="checked">Tarefa 1</li>
-            <li>Tarefa 2</li>
-            <li>Tarefa 3</li>-->
-
+            {%for elel in elementos%}
+                <li>{{ elel[2] }}</li>
+            {%endfor%}
         </ul>
-        <img class="honk" src="/app/Images/ganhamo.png">
+        <img class="honk" src="{{ url_for('static',filename='images/ganhamo.png') }}">
         </div>
     </div>
     
     <footer>         
-        <a href="#">
-            <img src="/app/Images/turtle.png" class="site-icon" >
+        <a href="/">
+            <img src ="{{ url_for('static',filename='images/turtle.png') }}" class="site-icon" >
         </a>     
     
         <nav>
             <ul>
-                <a href="/app/template/criadores.html">Criadores</a>
+                <a href="/criadores">Criadores</a>
             </ul>
         </nav>
     </footer>

@@ -1,6 +1,8 @@
-from Task import Task
+## Biblioteca
 from db import DB
+#
 
+## Constantes
 db = DB(
 """
 CREATE TABLE tarefa(
@@ -11,9 +13,7 @@ date VARCHAR(8)
 );
 """
 )
+#
 
-tarefa = Task(db)
-id = tarefa.nova_tarefa("Oiii", "12/12/12")
-tarefa.modificar_tarefa(19, 1, "voce chegou para alegrar o dia")
-print(db.listQuery("tarefa"))
 
+## Declarações
