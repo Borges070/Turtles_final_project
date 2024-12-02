@@ -1,12 +1,10 @@
-
+import db
 import Task
 class Tasklist :
 
-    def addTask(self,description, dateTime):
+    def addTask():
         
+    def removeTask():
         
-
-    def removeTask(self, id):
-        
-    def completeTask(self, id):
+    def completeTask():
             
