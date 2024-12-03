@@ -7,23 +7,21 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/sign-up.css') }}">
 </head>
 <body> 
+    <form method="post">
         <div class="form-structor">
             <div class="signup">
                 <h2 class="form-title" id="signup">Sign up</h2>
                 <div class="form-holder">
-                    <input type="text" class="input" placeholder="Name" />
-                    <input type="email" class="input" placeholder="Email" />
-                    <input type="password" class="input" placeholder="Password" />
+                    <input type="text" class="input" placeholder="Name" name="nome"/>
+                    <input type="email" class="input" placeholder="Email" name="email"/>
+                    <input type="password" class="input" placeholder="Password" name="password"/>
                 </div>
-                <button class="submit-btn">Sign up</button>
+                <button class="submit-btn" type="submit">Sign up</button>
             </div> 
                 <div class="sign-up-link">Or Log in</div>
         </div>
-        
-        
-                
+    </form>
 
-        
     <footer>         
         <a href="/">
             <img src="{{ url_for('static',filename='images/turtle.png') }}" class="site-icon" >
