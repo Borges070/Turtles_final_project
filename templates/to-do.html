@@ -1,37 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-do-list</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/to-do.css') }}">
 </head>
+
 <body>
     <div class="fundo">
         <div class="todo-app"><!--parte branca-->
             <h1><img src="{{ url_for('static',filename='images/todo.png') }}"></h1>
             <h2>O que fazer?</h2>
-            
-        <div class="linhas">
-            <input type="text" id="caixa-input" placeholder="Adicione a tarefa">
-            <button id="addbutt"onclick="addtarefa()">Adicionar</button><!-- Aqui vamos por a função de adicionar a tarefa-->
-            
-        
+
+            <form method="post">
+                <div class="linhas">
+                    <input name="descricao" type="text" id="caixa-input" placeholder="Adicione a tarefa">
+                    <button id="addbutt" type="submit">Adicionar</button>
+            </form>
+
+        <div>
+            {% with mensagens = get_flashed_messages(with_categories=True) %}
+                {% if mensagens %}
+                    {% for category, message in mensagens %}
+                        <p class="{{ category }}"> {{ message }} </p>
+                    {%endfor%}
+                {%endif%}
+            {%endwith%}
+        </div>
+
         </div>
         <ul id="lista">
-            {%for elel in elementos%}
-                <li>{{ elel[2] }}</li>
+            {%for tarefa in tarefas%}
+                <li>{{ tarefa }}</li>
             {%endfor%}
         </ul>
-        <img class="honk" src="{{ url_for('static',filename='images/ganhamo.png') }}">
+        <div>
+
         </div>
+        <img class="honk" src="{{ url_for('static',filename='images/ganhamo.png') }}">
     </div>
-    
-    <footer>         
+    </div>
+
+    <footer>
         <a href="/">
-            <img src ="{{ url_for('static',filename='images/turtle.png') }}" class="site-icon" >
-        </a>     
-    
+            <img src="{{ url_for('static',filename='images/turtle.png') }}" class="site-icon">
+        </a>
+
         <nav>
             <ul>
                 <a href="/criadores">Criadores</a>
@@ -41,4 +57,5 @@
     <script src="/app/javascript/to-do.js"></script>
 
 </body>
+
 </html>

@@ -2,34 +2,25 @@ from db import DB
 
 class Task:
     ## Declarações
-    completion: bool
-    description: str
-    date: str
-    id: int
-    
-    db: DB
+    __db: DB
     #
     
     ## Métodos 
-    def __init__(self, db:DB):
-        if isinstance(db, DB):
-            self.db = db
+    def __init__(self, __db:DB):
+        if isinstance(__db, DB):
+            self.__db = __db
         else: exit(1)
 
     def dados_tarefa(self, id:int) -> list[str]:
-        return self.db.selectQuery("tarefa", ("description", "date"), id)
+        return self.__db.selectQuery("tarefa", ("descricao"), id)
 
-    def nova_tarefa(self, description:str, date:str) -> int:
-        if not (isinstance(description, str) and isinstance(date, str)):
+    def nova_tarefa(self, descricao:str) -> int:
+        if not isinstance(descricao, str):
             raise ValueError("Erro no tipo dos dados")
 
-        return self.db.insertQuery("tarefa", ("description", "date"), (description, date))
+        return self.__db.insertQuery("tarefa", ("descricao"), (descricao))
     
-    def modificar_tarefa(self, id:int, tipo:int, dado:str) -> None:
-        self.db.updateQuery("tarefa", 
-                            "description" if tipo == 1 else "date",
-                            dado,
-                            id
-                            )
+    def modificar_tarefa(self, id:int, dado:str) -> None:
+        self.__db.updateQuery("tarefa", "descricao", dado, id)
         
     #
