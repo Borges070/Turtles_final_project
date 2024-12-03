@@ -12,15 +12,20 @@ class Task:
         else: exit(1)
 
     def dados_tarefa(self, id:int) -> list[str]:
-        return self.__db.selectQuery("tarefa", ("descricao"), id)
+        return self.__db.selectQuery("tarefa", ("descricao", "concluido"), id)
 
     def nova_tarefa(self, descricao:str) -> int:
         if not isinstance(descricao, str):
             raise ValueError("Erro no tipo dos dados")
 
-        return self.__db.insertQuery("tarefa", ("descricao"), (descricao))
+        return self.__db.insertQuery("tarefa", ("descricao", "concluido"), (descricao, False))
+
+    def deletar_tarefa(self, id:int) -> None:
+        self.__db.delQuery("tarefa", id)
+
+    def modificar_tarefa(self, id:int, tipo:int, dado:any) -> None:
+        self.__db.updateQuery("tarefa", 
+                              "concluido" if tipo == 0 else "descricao", 
+                              dado, id)
     
-    def modificar_tarefa(self, id:int, dado:str) -> None:
-        self.__db.updateQuery("tarefa", "descricao", dado, id)
-        
     #

@@ -20,20 +20,60 @@
                     <button id="addbutt" type="submit">Adicionar</button>
             </form>
 
-        <div>
-            {% with mensagens = get_flashed_messages(with_categories=True) %}
-                {% if mensagens %}
-                    {% for category, message in mensagens %}
-                        <p class="{{ category }}"> {{ message }} </p>
-                    {%endfor%}
-                {%endif%}
-            {%endwith%}
-        </div>
+            <div>
+                {% with mensagens = get_flashed_messages(with_categories=True) %}
+                    {% if mensagens %}
+                        {% for category, message in mensagens %}
+                            <p class="{{ category }}"> {{ message }} </p>
+                        {%endfor%}
+                    {%endif%}
+                {%endwith%}
+            </div>
 
         </div>
-        <ul id="lista">
-            {%for tarefa in tarefas%}
-                <li>{{ tarefa }}</li>
+        <ul>
+            {% for tarefa in tarefas %}
+                <li class="lista" id="{{ "lista_checked" if tarefa[2] else "" }}" onclick="mudar_estado({{tarefa[0]}}, {{tarefa[2]}})">
+                <script>
+                    function mudar_estado(id, estado) {
+                        fetch("/mudar_estado_do_db", {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    id_banco: id,
+                                    estado_banco: estado
+                                }),
+                                headers: {
+                                "Content-type": "application/json; charset=UTF-8"
+                                }
+                            })
+                            .then(response => response.json)
+                            .then(data => console.log(data))
+                            .catch(error => console.error(error))
+                            .finally(window.location.reload())
+                    }
+                </script>
+                    {{ tarefa[1] }}
+                    <button onclick="apagar_db({{tarefa[0]}})">x</button>
+                    <script>
+                        function apagar_db(id) {
+                            fetch("/apagar_do_db", {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    id_banco: id
+                                }),
+                                headers: {
+                                "Content-type": "application/json; charset=UTF-8"
+                                }
+                            })
+                            .then(response => response.json)
+                            .then(data => console.log(data))
+                            .catch(error => console.error(error))
+                            .finally(window.location.reload())
+
+                        }
+                    </script>
+                </li>
+                <button>Editar</button>
             {%endfor%}
         </ul>
         <div>

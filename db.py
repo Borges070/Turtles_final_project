@@ -9,9 +9,8 @@ class DB:
     __tarefaModelagem = """
     CREATE TABLE tarefa(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    completion BOOLEAN DEFAULT(FALSE), 
-    description VARCHAR(30), 
-    date VARCHAR(8)
+    descricao VARCHAR(30),
+    concluido BOOLEAN DEFAULT(FALSE)
     );
     """
     __clienteModelagem = """
@@ -40,7 +39,7 @@ class DB:
     # /* FIM  */ #
 
     # /* Funções Query -> Operações no DB */ #
-    def insertQuery(self, tabela:str, colunas:tuple[str], valores:tuple[str]) -> int:
+    def insertQuery(self, tabela:str, colunas:tuple[str], valores:tuple[any]) -> int:
         query = f"""
         INSERT INTO {tabela}({", ".join(colunas)}) VALUES({self._typesdata[len(valores)-1]})
         """
@@ -54,13 +53,13 @@ class DB:
     def listQuery(self, tabela:str) -> list[str]:
         return self.__db.execute(f"SELECT * FROM {tabela}").fetchall()
     
-    def updateQuery(self, tabela:str, coluna:str, valor:str, id:int) -> None:
+    def updateQuery(self, tabela:str, coluna:str, valor:any, id:int) -> None:
         query:str = f"""
         UPDATE {tabela} SET {coluna} = ? WHERE id = ?
         """
         print(query)
 
-        self.__db.execute(query, (valor, str(id)))
+        self.__db.execute(query, (valor, id))
         self.__db.commit()
     
     def delQuery(self, tabela:str, id:int):
@@ -69,7 +68,7 @@ class DB:
         """
         print(query)
 
-        self.__db.execute(query, str(id))
+        self.__db.execute(query, (id,))
         self.__db.commit()
 
     def selectQuery(self, tabela:str, colunas:tuple[str], id:int) -> list[str]:
@@ -78,7 +77,7 @@ class DB:
         """
         print(query)
 
-        return self.__db.execute(query, str(id)).fetchall()
+        return self.__db.execute(query, (id,)).fetchall()
 
     # /* FIM */ #
     #
@@ -92,12 +91,3 @@ class DB:
     def clienteModelagem(self) -> None:
         return self.__clienteModelagem
     #
-
-"""
-CREATE TABLE tarefa(
-id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-completion BOOLEAN DEFAULT(FALSE), 
-description VARCHAR(30), 
-date VARCHAR(8)
-);
-"""
