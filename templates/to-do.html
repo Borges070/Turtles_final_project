@@ -22,58 +22,90 @@
 
             <div>
                 {% with mensagens = get_flashed_messages(with_categories=True) %}
-                    {% if mensagens %}
-                        {% for category, message in mensagens %}
-                            <p class="{{ category }}"> {{ message }} </p>
-                        {%endfor%}
-                    {%endif%}
+                {% if mensagens %}
+                {% for category, message in mensagens %}
+                <p class="{{ category }}"> {{ message }} </p>
+                {%endfor%}
+                {%endif%}
                 {%endwith%}
             </div>
 
         </div>
         <ul>
-            {% for tarefa in tarefas %}
-                <li class="lista" id="{{ "lista_checked" if tarefa[2] else "" }}" onclick="mudar_estado({{tarefa[0]}}, {{tarefa[2]}})">
+            {% for tarefa in tarefas %}<!--Parou de funcionar essa bomba no meu, mas sei que vc fez um algoritmo diferente, ent nem arrumei(só quebrou o mudar_estado)-->
+            <li class="lista" id="{{ " lista_checked" if tarefa[2] else "" }}"
+                onclick="mudar_estado({{tarefa[0]}}, {{tarefa[2]}})">
                 <script>
                     function mudar_estado(id, estado) {
                         fetch("/mudar_estado_do_db", {
-                                method: "POST",
-                                body: JSON.stringify({
-                                    id_banco: id,
-                                    estado_banco: estado
-                                }),
-                                headers: {
+                            method: "POST",
+                            body: JSON.stringify({
+                                id_banco: id,
+                                estado_banco: estado
+                            }),
+                            headers: {
                                 "Content-type": "application/json; charset=UTF-8"
-                                }
-                            })
+                            }
+                        })
                             .then(response => response.json)
                             .then(data => console.log(data))
                             .catch(error => console.error(error))
                             .finally(window.location.reload())
                     }
                 </script>
-                    {{ tarefa[1] }}
-                    <button onclick="apagar_db({{tarefa[0]}})">x</button>
-                    <script>
-                        function apagar_db(id) {
-                            fetch("/apagar_do_db", {
-                                method: "POST",
-                                body: JSON.stringify({
-                                    id_banco: id
-                                }),
-                                headers: {
+                {{ tarefa[1] }}
+                <button id="delete_butt" onclick="apagar_db({{tarefa[0]}})">x</button>
+                <script>
+                    function apagar_db(id) {
+                        fetch("/apagar_do_db", {
+                            method: "POST",
+                            body: JSON.stringify({
+                                id_banco: id
+                            }),
+                            headers: {
                                 "Content-type": "application/json; charset=UTF-8"
-                                }
-                            })
+                            }
+                        })
                             .then(response => response.json)
                             .then(data => console.log(data))
                             .catch(error => console.error(error))
                             .finally(window.location.reload())
 
+                    }
+                </script>
+            </li>
+            <!--A partir daqui é o código do todo-edit.html (lembrando que ele está dentro do FOR)-->
+            <button id="edit_butt" onclick="todoedit({{tarefa[0]}})">Editar</button>
+            
+
+            <script>
+                function todoedit(id) {
+                    fetch("/todo-edit", {
+                        method: "POST", // Fixed key
+                        body: JSON.stringify({
+                            id_banco: id
+                        }),
+                        headers: {
+                            "Content-Type": "application/json; charset=UTF-8"
                         }
-                    </script>
-                </li>
-                <button>Editar</button>
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("Network response was not ok");
+                            }
+                            return response.json(); // Call .json()
+                        })
+                        .then(data => {
+                            console.log("Success:", data);
+                            // Optionally navigate to a new page with the fetched data
+                            window.location.href = "/todo-edit"; // Redirect to view the edit page
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                        });
+                }
+            </script>
+
             {%endfor%}
         </ul>
         <div>
@@ -91,10 +123,11 @@
         <nav>
             <ul>
                 <a href="/criadores">Criadores</a>
+                <a href="/todo-edit">todo-edit</a>
             </ul>
         </nav>
     </footer>
-    <script src="/app/javascript/to-do.js"></script>
+
 
 </body>
 
