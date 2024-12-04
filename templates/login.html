@@ -4,35 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login_Page</title>
-    <link rel="stylesheet" href="/app/static/styles/login.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/login.css') }}">
 </head>
 <body> 
         
         
+    <form method="post">
         <div class="form-structor">
             <div class="signup">
                 <h2 class="form-title" id="signup">Log in</h2>
                 <div class="form-holder">
-                    <input type="email" class="input" placeholder="Email" />
-                    <input type="password" class="input" placeholder="Password" />
+                    <input name="email" type="email" class="input" placeholder="Email"/>
+                    <input name="password" type="password" class="input" placeholder="Password"/>
                 </div>
-                <button class="submit-btn">Log in</button>
+                <button class="submit-btn" type="submit">Log in</button>
                 <div class="sign-up-link"><a href="/app/template/sign-up.html">Or Sign Up</a>
                     
                 </div>
             </div>   
         </div>
+    </form>
         
     <footer>         
         <a href="#">
-            <img src="/app/Images/turtle.png" class="site-icon" >
+            <img src="{{ url_for('static',filename='images/turtle.png') }}" class="site-icon" >
         </a>     
     
         <nav>
             <ul>
-                <li><a href="/app/template/criadores.html">Criadores</a></li>
-                <li><a href="/app/template/to-do.html">To do</a></li>
-                <li><a href="/app/template/sign-up.html">Sign up</a></li>
+                <li><a href="/criadores">Criadores</a></li>
+                <li><a href="/to-do">To do</a></li>
+                <li><a href="/sign-up">Sign up</a></li>
             </ul>
         </nav>
     </footer>

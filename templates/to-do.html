@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do-list</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/to-do.css') }}">
+</head>
+
+<body>
+    <div class="fundo">
+        <div class="todo-app"><!--parte branca-->
+            <h1><img src="{{ url_for('static',filename='images/todo.png') }}"></h1>
+            <h2>O que fazer?</h2>
+
+            <form method="post">
+                <div class="linhas">
+                    <input name="descricao" type="text" id="caixa-input" placeholder="Adicione a tarefa">
+                    <button id="addbutt" type="submit">Adicionar</button>
+            </form>
+
+            <div>
+                {% with mensagens = get_flashed_messages(with_categories=True) %}
+                {% if mensagens %}
+                {% for category, message in mensagens %}
+                <p class="{{ category }}"> {{ message }} </p>
+                {%endfor%}
+                {%endif%}
+                {%endwith%}
+            </div>
+
+        </div>
+        <ul>
+
+            {% for tarefa in tarefas %}
+                <li class="lista" id="{{ "lista_checked" * tarefa[2] }}" 
+                onclick="envio_post('mudar_estado_do_db', {{tarefa[0]}}, {{tarefa[2]}})">{{ tarefa[1] }}
+                    <button id="delete_butt" onclick="envio_post('apagar_do_db', {{tarefa[0]}})">x</button>
+                </li>
+                <button id="edit_butt" onclick="mudar_pag('{{ url_for('todoedit', id=tarefa[0]) }}')">Editar</button>
+                <!--A partir daqui é o código do todo-edit.html (lembrando que ele está dentro do FOR)-->
+            {%endfor%}
+        </ul>
+        <div>
+
+        </div>
+        <img class="honk" src="{{ url_for('static',filename='images/ganhamo.png') }}">
+    </div>
+    </div>
+
+    <footer>
+        <a href="/">
+            <img src="{{ url_for('static',filename='images/turtle.png') }}" class="site-icon">
+        </a>
+      
+        <nav>
+            <ul>
+                <a onclick="mudar_pag('{{ url_for('criadores') }}')" href="/criadores">Criadores</a>
+            </ul>
+        </nav>
+    </footer>
+  
+    <script src="{{url_for("static", filename="to-do-app.js")}}"></script>
+  
+</body>
+
+</html>
