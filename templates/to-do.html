@@ -32,52 +32,16 @@
 
         </div>
         <ul>
-            {% for tarefa in tarefas %}<!--Parou de funcionar essa bomba no meu, mas sei que vc fez um algoritmo diferente, ent nem arrumei(só quebrou o mudar_estado)-->
-            <li class="lista" id="{{ " lista_checked" if tarefa[2] else "" }}"
-                onclick="mudar_estado({{tarefa[0]}}, {{tarefa[2]}})">
-                <script>
-                    function mudar_estado(id, estado) {
-                        fetch("/mudar_estado_do_db", {
-                            method: "POST",
-                            body: JSON.stringify({
-                                id_banco: id,
-                                estado_banco: estado
-                            }),
-                            headers: {
-                                "Content-type": "application/json; charset=UTF-8"
-                            }
-                        })
-                            .then(response => response.json)
-                            .then(data => console.log(data))
-                            .catch(error => console.error(error))
-                            .finally(window.location.reload())
-                    }
-                </script>
-                {{ tarefa[1] }}
-                <button id="delete_butt" onclick="apagar_db({{tarefa[0]}})">x</button>
-                <script>
-                    function apagar_db(id) {
-                        fetch("/apagar_do_db", {
-                            method: "POST",
-                            body: JSON.stringify({
-                                id_banco: id
-                            }),
-                            headers: {
-                                "Content-type": "application/json; charset=UTF-8"
-                            }
-                        })
-                            .then(response => response.json)
-                            .then(data => console.log(data))
-                            .catch(error => console.error(error))
-                            .finally(window.location.reload())
 
-                    }
-                </script>
-            </li>
+            {% for tarefa in tarefas %}
+                <li class="lista" id="{{ "lista_checked" * tarefa[2] }}" 
+                onclick="envio_post('mudar_estado_do_db', {{tarefa[0]}}, {{tarefa[2]}})">
+                    {{ tarefa[1] }}
+                </li>
+                <button id="delete_butt" onclick="envio_post('apagar_do_db', {{tarefa[0]}})">x</button>
+          
             <!--A partir daqui é o código do todo-edit.html (lembrando que ele está dentro do FOR)-->
             <button id="edit_butt" onclick="todoedit({{tarefa[0]}})">Editar</button>
-            
-
             <script>
                 function todoedit(id) {
                     fetch("/todo-edit", {
@@ -105,7 +69,7 @@
                         });
                 }
             </script>
-
+          
             {%endfor%}
         </ul>
         <div>
@@ -119,7 +83,7 @@
         <a href="/">
             <img src="{{ url_for('static',filename='images/turtle.png') }}" class="site-icon">
         </a>
-
+      
         <nav>
             <ul>
                 <a href="/criadores">Criadores</a>
@@ -127,8 +91,9 @@
             </ul>
         </nav>
     </footer>
-
-
+  
+    <script src="{{url_for("static", filename="to-do-app.js")}}"></script>
+  
 </body>
 
 </html>

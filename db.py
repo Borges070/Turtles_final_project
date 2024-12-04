@@ -14,6 +14,12 @@ class DB:
     );
     """
     __clienteModelagem = """
+    CREATE TABLE usuario(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    nome VARCHAR(70),
+    email VARCHAR(100),
+    senha VARCHAR(60)
+    );
     """
     #
 
@@ -39,7 +45,7 @@ class DB:
     # /* FIM  */ #
 
     # /* Funções Query -> Operações no DB */ #
-    def insertQuery(self, tabela:str, colunas:tuple[str], valores:tuple[any]) -> int:
+    def insertQuery(self, tabela:str, colunas:tuple, valores:tuple) -> int:
         query = f"""
         INSERT INTO {tabela}({", ".join(colunas)}) VALUES({self._typesdata[len(valores)-1]})
         """
@@ -50,7 +56,7 @@ class DB:
 
         return valor.lastrowid 
     
-    def listQuery(self, tabela:str) -> list[str]:
+    def listQuery(self, tabela:str) -> list[tuple]:
         return self.__db.execute(f"SELECT * FROM {tabela}").fetchall()
     
     def updateQuery(self, tabela:str, coluna:str, valor:any, id:int) -> None:
@@ -62,7 +68,7 @@ class DB:
         self.__db.execute(query, (valor, id))
         self.__db.commit()
     
-    def delQuery(self, tabela:str, id:int):
+    def delQuery(self, tabela:str, id:int) -> None:
         query:str = f"""
         DELETE FROM {tabela} WHERE id = ?
         """
@@ -71,14 +77,21 @@ class DB:
         self.__db.execute(query, (id,))
         self.__db.commit()
 
-    def selectQuery(self, tabela:str, colunas:tuple[str], id:int) -> list[str]:
-        query:str = f"""
-        SELECT {", ".join(colunas)} FROM {tabela} WHERE id = ?;
-        """
+    def selectQuery(self, tabela:str, coluna_retorno:tuple, comparativo_coluna:tuple, comparativo_valor:tuple) -> list[tuple]:
+        query:str = f'SELECT {", ".join(coluna_retorno)} FROM {tabela} WHERE'
+        
+        for col in comparativo_coluna:
+            query = query+f" {col} = ? AND"
+        
+        i = query.rfind("AND")
+        if i != -1:
+            query = query[:i] + query[i + len("AND"):]
+        else:
+            raise SystemError("Erro na criação da query")
+
+
         print(query)
-
-        return self.__db.execute(query, (id,)).fetchall()
-
+        return self.__db.execute(query, comparativo_valor).fetchall()
     # /* FIM */ #
     #
 
