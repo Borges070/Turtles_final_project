@@ -1,5 +1,5 @@
 ## Bibliotecas
-from flask import Flask, render_template, request, redirect, flash, url_for, make_response
+from flask import Flask, jsonify, render_template, request, redirect, flash, url_for, make_response
 import os
 
 from actions import task
@@ -153,6 +153,66 @@ def mudarEstadoDoDB():
         db = DB()
         task.Task(db).modificar_tarefa(int(data['0']), 0, inversor(data['1']))
         db.fecharDB()
+# Aqui eu só criei essa nova rota.
+@app.route("/todo-edit", methods=["GET", "POST"])
+def todoedit():
+    if request.method == "POST":
+        data = request.get_json(force=True)
+
+        if data is None:
+            return jsonify({"error": "Invalid request"}), 400
+
+        id_banco = data["id_banco"]
+        
+        if not id_banco:
+            return jsonify({"error": "Missing id_banco"}), 400
+
+        db = DB()
+        dados = Task(db).dados_tarefa(int(id_banco))
+        db.fecharDB()
+
+        if not dados:
+            return jsonify({"error": "Task not found"}), 404
+
+        return jsonify({"message": "Task fetched successfully", "dados": dados})
+
+    # Handle GET request to render the page
+    return render_template("todo-edit.html")
+#Esse aqui era para o submit, mas n cheguei a testar
+"""@app.route("/todo-edit/<int:id>", methods=["GET", "POST"])
+def edit(id):
+    db = DB()
+    dados = Task(db).dados_tarefa(id)  
+    db.fecharDB()
+
+    if request.method == "POST":
+        new_description = request.form["descricao"]
+        
+        if not new_description:
+            flash("Descrição não pode estar vazia!", "error")
+            return redirect(url_for("todo-edit", id=id))
+        
+
+        #def modificar_tarefa(self, id:int, tipo:int, dado:any) -> None:
+        #self.__db.updateQuery("tarefa", 
+        #                      "concluido" if tipo == 0 else "descricao", 
+        #                      dado, id)
+    
+        
+        Task(db).modificar_tarefa(id, 1, new_description)  
+        db.fecharDB()
+        
+        return redirect(url_for("to_do"))
+
+   
+    
+
+    if not dados:
+        flash("Tarefa não encontrada!", "error")
+        return redirect(url_for("to_do"))
+
+    return render_template("todo-edit.html", dados=dados)  # pra passar pro template tem q por ="""
+
 
     return redirect(url_for("to_do"))
 # /* FIM */ 
