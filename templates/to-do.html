@@ -35,41 +35,11 @@
 
             {% for tarefa in tarefas %}
                 <li class="lista" id="{{ "lista_checked" * tarefa[2] }}" 
-                onclick="envio_post('mudar_estado_do_db', {{tarefa[0]}}, {{tarefa[2]}})">
-                    {{ tarefa[1] }}
+                onclick="envio_post('mudar_estado_do_db', {{tarefa[0]}}, {{tarefa[2]}})">{{ tarefa[1] }}
+                    <button id="delete_butt" onclick="envio_post('apagar_do_db', {{tarefa[0]}})">x</button>
                 </li>
-                <button id="delete_butt" onclick="envio_post('apagar_do_db', {{tarefa[0]}})">x</button>
-          
-            <!--A partir daqui é o código do todo-edit.html (lembrando que ele está dentro do FOR)-->
-            <button id="edit_butt" onclick="todoedit({{tarefa[0]}})">Editar</button>
-            <script>
-                function todoedit(id) {
-                    fetch("/todo-edit", {
-                        method: "POST", // Fixed key
-                        body: JSON.stringify({
-                            id_banco: id
-                        }),
-                        headers: {
-                            "Content-Type": "application/json; charset=UTF-8"
-                        }
-                    })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error("Network response was not ok");
-                            }
-                            return response.json(); // Call .json()
-                        })
-                        .then(data => {
-                            console.log("Success:", data);
-                            // Optionally navigate to a new page with the fetched data
-                            window.location.href = "/todo-edit"; // Redirect to view the edit page
-                        })
-                        .catch(error => {
-                            console.error("Error:", error);
-                        });
-                }
-            </script>
-          
+                <button id="edit_butt" onclick="mudar_pag('{{ url_for('todoedit', id=tarefa[0]) }}')">Editar</button>
+                <!--A partir daqui é o código do todo-edit.html (lembrando que ele está dentro do FOR)-->
             {%endfor%}
         </ul>
         <div>
@@ -86,8 +56,7 @@
       
         <nav>
             <ul>
-                <a href="/criadores">Criadores</a>
-                <a href="/todo-edit">todo-edit</a>
+                <a onclick="mudar_pag('{{ url_for('criadores') }}')" href="/criadores">Criadores</a>
             </ul>
         </nav>
     </footer>

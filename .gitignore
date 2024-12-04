@@ -1,4 +1,5 @@
 /venv
 /.venv
+/actions/__pycache__
 /__pycache__
 /armazenamento_aplicacao.db

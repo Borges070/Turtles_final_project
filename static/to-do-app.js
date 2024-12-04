@@ -18,3 +18,6 @@ function envio_post(destino, ...valores) {
         .finally(window.location.reload())
 }
 
+function mudar_pag(url) {
+    location.href = url;
+}
